@@ -1,0 +1,76 @@
+/* <psl-jersey-viewer> — stage rotatorio. Ver decisiones en jersey-viewer.js */
+
+psl-jersey-viewer { display: block; }
+
+.jviewer {
+  position: relative;
+  aspect-ratio: 4/5;
+  border-radius: 18px;
+  overflow: hidden;
+  /* fondo oscuro con rim light — decisión #1 del ranking, Pieza A */
+  background: radial-gradient(70% 60% at 50% 42%, #1B1A13 0%, var(--color-jersey-viewer-bg) 72%);
+  border: 1px solid var(--color-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.jviewer:active { cursor: grabbing; }
+
+/* placeholder visual de la camiseta (franjas teal, clip de silueta) — reemplazar por modelo real */
+.jviewer__visual {
+  width: 44%;
+  height: 62%;
+  background: repeating-linear-gradient(180deg, #14C3A4, #14C3A4 14px, #12b096 14px, #12b096 28px);
+  clip-path: polygon(30% 0, 42% 8%, 58% 8%, 70% 0, 100% 20%, 86% 40%, 86% 100%, 14% 100%, 14% 40%, 0 20%);
+  opacity: .92;
+  will-change: transform;
+}
+.jviewer.is-loading .jviewer__visual { opacity: 0; }
+.jviewer.is-loaded .jviewer__visual { opacity: .92; transition: opacity 300ms ease; }
+
+/* Skeleton con shimmer — nunca spinner (anti-patrón Pieza A) */
+.jviewer__skeleton {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+.jviewer.is-loading .jviewer__skeleton { opacity: 1; }
+.jviewer__skeleton-shape {
+  width: 44%;
+  height: 62%;
+  border-radius: 14px;
+  background: linear-gradient(100deg, rgba(173,242,231,.04) 30%, rgba(173,242,231,.14) 50%, rgba(173,242,231,.04) 70%);
+  background-size: 200% 100%;
+  animation: psl-shimmer 1.4s ease-in-out infinite;
+}
+
+.jviewer__tag {
+  position: absolute;
+  font: 500 10px/1 var(--font-mono);
+  letter-spacing: .16em;
+}
+.jviewer__tag--asset {
+  left: 18px;
+  bottom: 16px;
+  color: var(--color-text-faint);
+  border: 1px solid var(--color-line-strong);
+  padding: 6px 9px;
+  border-radius: 5px;
+}
+.jviewer__tag--hint {
+  right: 18px;
+  top: 16px;
+  color: var(--color-sky);
+  transition: opacity 300ms ease;
+}
+.jviewer__tag--hint.is-hidden { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .jviewer__skeleton-shape { animation: none; }
+}

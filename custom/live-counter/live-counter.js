@@ -1,0 +1,254 @@
+import { LIVE_COUNTER_CONFIG } from './live-counter.config.js?v=3';
+// idioma desde el DOM (fuente única que setea i18n.apply()); evita instancias duplicadas del módulo
+const L = (en, es) => (document.documentElement.lang === 'es' ? es : en);
+
+/**
+ * <psl-live-counter variant="fan|reservation|sponsor"></psl-live-counter>
+ *
+ * 🟦 A medida — bloques 02 (Home) / 06 / S03 / P04. Un solo componente reutilizado
+ * con distinta config (ver live-counter.config.js), no 4 piezas separadas.
+ *
+ * Decisiones aplicadas (benchmark Piezas Diferenciales, Pieza C):
+ * - tabular-nums (token global .tnum, ver tokens.css)
+ * - máx 4 métricas, "last joined" como prueba de actividad honesta
+ * - números exactos, nunca redondeados con "+"
+ * - odometer para updates frecuentes (<1min), highlight+fade para updates espaciados
+ * - mismo dato, distinto framing por variante (fan vs sponsor)
+ *
+ * Sin backend real todavía: usa datos demo + polling simulado. El contrato de API real
+ * está documentado en live-counter.config.js — reemplazar fetchData() cuando exista el endpoint.
+ */
+class PSLLiveCounter extends HTMLElement {
+  connectedCallback() {
+    this.variant = this.getAttribute('variant') || 'stats';
+    this.config = LIVE_COUNTER_CONFIG[this.variant];
+    if (!this.config) {
+      console.warn(`psl-live-counter: variante desconocida "${this.variant}"`);
+      return;
+    }
+    this._data = this._demoData();
+    this._render();
+    this._poll();
+    // labels bilingües: actualizar textos al cambiar de idioma (sin re-render, no pierde el estado)
+    this._onLang = () => this._applyLabels();
+    document.addEventListener('psl:langchange', this._onLang);
+  }
+
+  disconnectedCallback() {
+    clearInterval(this._pollHandle);
+    document.removeEventListener('psl:langchange', this._onLang);
+  }
+
+  _applyLabels() {
+    this.config.metrics.forEach((m) => {
+      const label = this._metricsEl.querySelector(`[data-key="${m.key}"] .live-counter__label`);
+      if (label) label.textContent = L(m.label, m.labelEs || m.label);
+    });
+    if (this.config.note) {
+      const note = this.querySelector('.live-counter__note');
+      if (note && this.config.noteEs) note.textContent = L(this.config.note, this.config.noteEs);
+    }
+    const updated = this.querySelector('.live-counter__updated-text');
+    if (updated) updated.textContent = L('Updated in real time', 'Actualizado en tiempo real');
+    // valores que dependen del idioma (tiempo relativo): refrescar sin animación
+    this.config.metrics.forEach((m) => {
+      if (m.format === 'relative-time' || m.format === 'static') {
+        const cell = this._metricsEl.querySelector(`[data-key="${m.key}"] .live-counter__value`);
+        if (cell) cell.textContent = this._format(m);
+      }
+    });
+  }
+
+  // ---- DEMO DATA — reemplazar por fetch(this.config.endpoint) cuando exista el endpoint real ----
+  _demoData() {
+    return {
+      founders: 1248,
+      deposits2027: 312,
+      founderWindow: 'Closes 2027',
+      lastJoinedSecondsAgo: 720,
+      monthlyReach: 18400,
+      depositsCaptured: 46800,
+      founderGrowthPercent: 23,
+      firstWhistle: '2027',
+      league: 'USL',
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
+  _simulateIncrement() {
+    // Solo para demo en ausencia de backend — simula que se suma 1 fundador esporádicamente.
+    if (Math.random() < 0.5) {
+      this._data.founders += 1;
+      this._data.lastJoinedSecondsAgo = 0;
+      this._data.updatedAt = new Date().toISOString();
+    } else {
+      this._data.lastJoinedSecondsAgo += this.config.updateFrequencyMs / 1000;
+    }
+  }
+
+  _poll() {
+    this._pollHandle = setInterval(() => {
+      this._simulateIncrement();
+      this._update();
+    }, this.config.updateFrequencyMs);
+  }
+
+  _render() {
+    this.innerHTML = `
+      <div class="live-counter live-counter--${this.variant}">
+        <div class="live-counter__metrics"></div>
+        <p class="live-counter__updated">
+          <span class="live-counter__updated-text">${L('Updated in real time', 'Actualizado en tiempo real')}</span>
+          <span class="live-counter__updated-tooltip" title="${L('Founding members = people registered on pslsc.com with verified email', 'Miembros fundadores = personas registradas en pslsc.com con email verificado')}">ⓘ</span>
+        </p>
+      </div>
+    `;
+    this._metricsEl = this.querySelector('.live-counter__metrics');
+    this.config.metrics.forEach((m) => {
+      const cell = document.createElement('div');
+      cell.className = 'live-counter__metric';
+      cell.dataset.key = m.key;
+      cell.innerHTML = `
+        <div class="live-counter__value tnum${m.accent ? ' live-counter__value--accent' : ''}" data-format="${m.format}"></div>
+        <div class="live-counter__label">${L(m.label, m.labelEs || m.label)}</div>
+      `;
+      this._metricsEl.appendChild(cell);
+    });
+    // Si la última métrica es de texto relativo (ej. "12 min ago"), su columna deja de ser 1fr
+    // fijo y pasa a "al menos el ancho de su contenido" — así el valor mantiene el mismo tamaño
+    // de fuente que sus hermanos sin partirse en dos líneas ni desbordar.
+    const lastMetric = this.config.metrics[this.config.metrics.length - 1];
+    if (lastMetric && lastMetric.format === 'relative-time') {
+      const n = this.config.metrics.length;
+      this._metricsEl.style.gridTemplateColumns = `repeat(${n - 1}, 1fr) minmax(max-content, 1fr)`;
+    }
+    if (this.config.note) {
+      const note = document.createElement('p');
+      note.className = 'live-counter__note';
+      note.textContent = L(this.config.note, this.config.noteEs || this.config.note);
+      this.querySelector('.live-counter').appendChild(note);
+    }
+
+    // Render inicial: las métricas enteras arrancan en 0 y hacen count-up al entrar en viewport;
+    // el resto se muestra directo.
+    this._reveal(true);
+    this._observeReveal();
+  }
+
+  // separación de mils sin decimales (los enteros nunca llevan decimales)
+  _fmtInt(n) { return Math.round(n).toLocaleString('en-US'); }
+
+  _isCountUp(m) { return m.format === 'integer'; }
+
+  _reveal(initial = false) {
+    this.config.metrics.forEach((m) => {
+      const cell = this._metricsEl.querySelector(`[data-key="${m.key}"] .live-counter__value`);
+      if (initial && this._isCountUp(m)) {
+        cell.textContent = '0';   // parte de 0; el count-up lo lleva al valor
+        return;
+      }
+      const formatted = this._format(m);
+      if (initial || cell.textContent === '') {
+        cell.textContent = formatted;
+        return;
+      }
+      if (cell.textContent !== formatted) this._animateChange(cell, formatted);
+    });
+  }
+
+  // Dispara el count-up cuando el componente entra en viewport (una sola vez).
+  // Basado en getBoundingClientRect + scroll/load, sin depender de IntersectionObserver.
+  _observeReveal() {
+    const maybe = () => {
+      if (this._countUpDone) return;
+      const r = this.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      if (r.top < vh * 0.85 && r.bottom > 0) {
+        this._countUpDone = true;
+        window.removeEventListener('scroll', maybe);
+        this._runCountUps();
+      }
+    };
+    this._maybeReveal = maybe;
+    window.addEventListener('scroll', maybe, { passive: true });
+    requestAnimationFrame(maybe);   // chequeo inicial por si ya está en viewport
+  }
+
+  // Anima 0 -> valor para cada métrica entera. Rápido, easeOut. tabular-nums + alineado a la
+  // izquierda evitan cualquier salto de layout mientras crece la cantidad de dígitos.
+  _runCountUps() {
+    const reduce = typeof window !== 'undefined'
+      && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.config.metrics.filter((m) => this._isCountUp(m)).forEach((m) => {
+      const cell = this._metricsEl.querySelector(`[data-key="${m.key}"] .live-counter__value`);
+      const target = Number(this._data[m.key]) || 0;
+      if (reduce) { cell.textContent = this._fmtInt(target); return; }
+      const DURATION = 1200;
+      const t0 = performance.now();
+      const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+      const tick = (now) => {
+        const t = Math.min((now - t0) / DURATION, 1);
+        cell.textContent = this._fmtInt(target * easeOut(t));
+        if (t < 1) requestAnimationFrame(tick);
+        else cell.textContent = this._fmtInt(target);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  // Update en vivo (polling): refleja incrementos.
+  _update() {
+    this.config.metrics.forEach((m) => {
+      const cell = this._metricsEl.querySelector(`[data-key="${m.key}"] .live-counter__value`);
+      // durante/antes del count-up inicial no pisar el valor animado de las métricas enteras
+      if (this._isCountUp(m) && !this._countUpDone) return;
+      const formatted = this._format(m);
+      if (cell.textContent === formatted) return;
+      // Métricas con count-up: actualizar el número en silencio (que cambie ES la prueba de "vivo";
+      // el flash teal se percibía como glitch al cargar). El resto sí usa highlight+fade.
+      if (this._isCountUp(m)) cell.textContent = formatted;
+      else this._animateChange(cell, formatted);
+    });
+  }
+
+  _animateChange(cell, newValue) {
+    // Updates espaciados (>=30s en este config) -> highlight+fade, no odometer continuo.
+    // (odometer reservado para updates por WebSocket cada segundo-minuto, fuera del alcance demo).
+    cell.textContent = newValue;
+    cell.classList.remove('live-counter__value--highlight');
+    void cell.offsetWidth; // reflow para reiniciar la animación
+    cell.classList.add('live-counter__value--highlight');
+    setTimeout(() => cell.classList.remove('live-counter__value--highlight'), 1500);
+  }
+
+  // Cada métrica formatea su propio valor leyendo data[m.key] (o un derivado), nunca un campo fijo.
+  _format(m) {
+    const data = this._data;
+    switch (m.format) {
+      case 'integer':
+        return Number(data[m.key]).toLocaleString('en-US');
+      case 'currency':
+        return `$${Number(data[m.key]).toLocaleString('en-US')}`;
+      case 'growth-percent':
+        return `+${data[m.key]}%`;
+      case 'relative-time':
+        return this._relativeTime(data.lastJoinedSecondsAgo);
+      case 'static':
+      case 'text':
+      default:
+        return data[m.key];
+    }
+  }
+
+  _relativeTime(seconds) {
+    if (seconds < 60) return L('Just now', 'Recién');
+    const min = Math.floor(seconds / 60);
+    if (min < 60) return L(`${min} min ago`, `hace ${min} min`);
+    const hr = Math.floor(min / 60);
+    return L(`${hr}h ago`, `hace ${hr}h`);
+  }
+}
+
+customElements.define('psl-live-counter', PSLLiveCounter);
+
+export { PSLLiveCounter };

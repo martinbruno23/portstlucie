@@ -1,0 +1,34 @@
+/* Bloque S06 · Llamado final — banda aquamarine */
+
+.finalcta__inner {
+  padding-block: clamp(64px, 8vw, 110px);
+  text-align: center;
+}
+
+.finalcta__title {
+  margin: 0 auto;
+  max-width: 20ch;
+  font: 800 clamp(32px, 5vw, 68px)/0.98 var(--font-display);
+  letter-spacing: var(--ls-display);
+  color: var(--color-black);
+}
+.finalcta__lead {
+  margin: 20px auto 0;
+  max-width: 46ch;
+  font: 400 var(--fs-body-lg)/1.55 var(--font-body);
+  color: rgba(0,0,0,.7);
+}
+
+.finalcta__ctas {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 36px;
+}
+
+/* sobre aquamarine, el CTA sólido va en negro (invierte el patrón habitual) */
+.finalcta__btn--solid { background: var(--color-black); color: var(--color-aqua); }
+.finalcta__btn--solid:hover { background: var(--color-ink-2); }
+.finalcta__btn--outline { background: transparent; color: var(--color-black); border: 1px solid rgba(0,0,0,.3); }
+.finalcta__btn--outline:hover { border-color: var(--color-black); }

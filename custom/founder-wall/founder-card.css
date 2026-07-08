@@ -1,0 +1,109 @@
+/* <psl-founder-card> — carnet digital 9:16 (Pieza B). Ver decisiones en founder-card.js */
+
+psl-founder-card {
+  display: block;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+/* Credencial premium — se mantiene oscura incluso dentro de secciones claras: da foco y contraste,
+   es una credencial de honor, no un elemento más del layout. */
+.founder-card {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: linear-gradient(165deg, #14130E 0%, #0C0C0A 60%);
+  border: 1px solid var(--color-line-strong);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 24px;
+  color: var(--color-text);
+}
+
+/* arte generativo basado en el número — placeholder por tier (colores de marca: aqua + red marine) */
+.founder-card__art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 28% 18%, rgba(170, 246, 230, 0.22), transparent 52%),
+    radial-gradient(circle at 82% 82%, rgba(255, 0, 51, 0.14), transparent 52%);
+}
+.founder-card--charter .founder-card__art {
+  background:
+    radial-gradient(circle at 28% 18%, rgba(170, 246, 230, 0.4), transparent 56%),
+    radial-gradient(circle at 82% 82%, rgba(255, 0, 51, 0.2), transparent 56%);
+}
+
+/* franja superior: crest + tier */
+.founder-card__top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.founder-card__crest { width: 40px; height: auto; display: block; }
+.founder-card__tier {
+  font: 500 9px/1.3 var(--font-label);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--color-aqua);
+}
+.founder-card--founding .founder-card__tier { color: var(--color-text-faint); }
+
+/* centro: el número es el elemento más grande del carnet — decisión #5 del ranking, Pieza B */
+.founder-card__center {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.founder-card__number {
+  font: 800 clamp(3.4rem, 17vw, 5rem)/0.9 var(--font-display);
+  letter-spacing: var(--ls-display);
+  color: var(--color-aqua);
+}
+.founder-card__name {
+  font: 700 var(--fs-h3)/1.1 var(--font-body);
+  color: var(--color-text);
+}
+
+/* pie: club + fecha + share */
+.founder-card__meta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+.founder-card__club,
+.founder-card__joined {
+  font: 500 9px/1.4 var(--font-label);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.founder-card__share {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-aqua);
+  color: var(--color-black);
+  font: 600 13px/1 var(--font-body);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+.founder-card__share:hover { background: var(--color-white); }

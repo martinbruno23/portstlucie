@@ -1,0 +1,114 @@
+/* Bloque 01 · Hero */
+
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+/* placeholder rayado — reemplazar por media real del estadio */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(128deg, #171610 0, #171610 13px, #14130E 13px, #14130E 26px);
+}
+
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 72% 18%, rgba(169,214,222,.10), transparent 60%),
+    linear-gradient(180deg, rgba(12,12,10,.62) 0%, rgba(12,12,10,.35) 32%, rgba(12,12,10,.88) 82%, #0C0C0A 100%);
+}
+
+.hero__asset-tag {
+  position: absolute;
+  top: 96px;
+  right: var(--gutter);
+  font: 500 10px/1 var(--font-mono);
+  letter-spacing: .18em;
+  color: rgba(239,235,225,.34);
+  border: 1px solid var(--color-line-strong);
+  padding: 7px 10px;
+  border-radius: 4px;
+}
+
+.hero__content {
+  position: relative;
+  width: 100%;
+  padding-bottom: clamp(40px, 6vw, 72px);
+}
+
+.hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+  font: 500 var(--fs-kicker)/1 var(--font-mono);
+  letter-spacing: .24em;
+  color: var(--color-sky);
+}
+
+.hero__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-teal);
+  animation: psl-pulse 1.6s ease-in-out infinite;
+}
+
+.hero__headline {
+  margin: 0;
+  font: 800 var(--fs-hero)/0.92 var(--font-hero);   /* Ferryman — título de la home */
+  letter-spacing: -.01em;
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+/* palabra que muta ("imagined → built → … → born").
+   El "sizer" (palabra más larga, invisible) reserva el ancho SIEMPRE, así el titular no reflowea
+   ni salta de línea al cambiar de palabra — puro CSS, responsive a cualquier tamaño.
+   La palabra viva va encima en position:absolute, alineada a la izquierda. */
+.hero__morph {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+  text-align: left;
+}
+.hero__morph-sizer { visibility: hidden; }
+.hero__morph-word {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-aqua);   /* visible por defecto: sin JS se lee "born." correcto */
+  font-weight: 800;
+  transition: opacity 120ms ease;
+}
+/* estados intermedios (mientras cicla): más apagados y peso menor */
+.hero__morph-word.is-cycling { color: var(--color-text-muted); font-weight: 700; }
+
+.hero__subhead {
+  margin: 30px 0 0;
+  max-width: 52ch;
+  font: 400 var(--fs-body-lg)/1.55 var(--font-body);
+  color: var(--color-text-muted);
+}
+
+.hero__ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+
+/* Barra separadora — gradiente de marca aquamarine → red marine (reemplaza el ticker) */
+.hero__divider {
+  position: relative;   /* por encima del scrim absoluto */
+  z-index: 2;
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--color-aqua) 0%, var(--color-red-marine) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__dot { animation: none; }
+}

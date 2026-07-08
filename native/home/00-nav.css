@@ -1,0 +1,74 @@
+/* Nav — header compartido */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background: rgba(12, 12, 10, .82);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.nav__inner {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+/* crest oficial (institucional) */
+.nav__crest { height: 36px; width: auto; display: block; }
+
+.nav__wordmark { display: flex; align-items: center; line-height: 1; }
+.nav__name { font: 800 16px/1 var(--font-display); letter-spacing: var(--ls-display); }
+
+.nav__links { display: flex; align-items: center; gap: 28px; }
+.nav__links a {
+  font: 600 14px/1 var(--font-body);
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+.nav__links a:hover { color: var(--color-text); }
+
+.nav__right { display: flex; align-items: center; gap: 16px; }
+.nav__cta { padding: 12px 18px; font-size: 12.5px; }
+
+/* switch de idioma EN/ES — pill segmentado */
+.nav__lang {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-pill);
+  background: rgba(255,255,255,.03);
+}
+.nav__lang-btn {
+  border: none;
+  background: transparent;
+  color: var(--color-text-faint);
+  font: 600 11px/1 var(--font-label);
+  letter-spacing: .08em;
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: color 140ms ease, background 140ms ease;
+}
+.nav__lang-btn:hover { color: var(--color-text); }
+.nav__lang-btn.is-active {
+  background: var(--color-aqua);
+  color: var(--color-black);
+}
+
+@media (max-width: 900px) {
+  .nav__links { display: none; }
+  .nav__cta { display: none; }   /* en mobile prioriza el switch; el CTA vive en el hero */
+}
+

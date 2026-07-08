@@ -1,0 +1,20 @@
+/* Bloque P04 · La tracción — Partners. Override del live-counter para superficie clara. */
+
+.ptraction .psl-container { padding-block: var(--section-pad); }
+.ptraction__head { max-width: 40rem; margin-bottom: clamp(36px, 4vw, 52px); }
+.ptraction__title { font-size: clamp(30px, 4.4vw, 58px); }
+.ptraction__lead {
+  margin: 18px 0 0;
+  max-width: 52ch;
+  font: 400 var(--fs-body-lg)/1.6 var(--font-body);
+  color: var(--color-text-on-paper-muted);
+}
+
+/* el <psl-live-counter> está estilado para fondo oscuro; acá va sobre paper -> invertir colores */
+.ptraction .live-counter__value { color: var(--color-text-on-paper); }
+.ptraction .live-counter__value--accent { color: var(--color-aqua-deep); }
+.ptraction .live-counter__value--highlight { color: var(--color-aqua-deep); }
+.ptraction .live-counter__label { color: var(--color-text-on-paper-muted); }
+.ptraction .live-counter__metric + .live-counter__metric { border-left-color: var(--color-paper-line); }
+.ptraction .live-counter__note,
+.ptraction .live-counter__updated { color: var(--color-text-on-paper-faint); }

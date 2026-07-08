@@ -1,0 +1,17 @@
+/* Bloque · Matchday (fixtures) — wrapper. El strip tiene su CSS en /custom/fixtures/ */
+
+.matchday .psl-container { padding-block: var(--section-pad); }
+
+.matchday__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+.matchday__title { max-width: 20ch; font-size: clamp(30px, 4.4vw, 56px); }
+.matchday__lead {
+  margin-top: 20px;
+  max-width: 48ch;
+  font: 400 var(--fs-body-lg)/1.6 var(--font-body);
+  color: var(--color-text-on-paper-muted);
+}

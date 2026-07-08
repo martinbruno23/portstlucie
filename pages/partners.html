@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build it with us — Port St. Lucie SC Partners</title>
+
+  <!-- Fuentes de marca -->
+  <link rel="stylesheet" href="../tokens/fonts.css?v=17" />
+  <!-- Tokens -->
+  <link rel="stylesheet" href="../tokens/tokens.css?v=17" />
+
+  <!-- Patrones compartidos -->
+  <link rel="stylesheet" href="../native/_patterns/cards.css?v=17" />
+
+  <!-- Nav + footer compartidos (bloques de Home) -->
+  <link rel="stylesheet" href="../native/home/00-nav.css?v=17" />
+  <link rel="stylesheet" href="../native/home/09-cierre-footer.css?v=17" />
+
+  <!-- Bloques Partners -->
+  <link rel="stylesheet" href="../native/partners/p01-hero.css?v=17" />
+  <link rel="stylesheet" href="../native/partners/p02-opportunity.css?v=17" />
+  <link rel="stylesheet" href="../native/partners/p03-value.css?v=17" />
+  <link rel="stylesheet" href="../native/partners/p04-traction.css?v=17" />
+  <link rel="stylesheet" href="../native/partners/p05-contact.css?v=17" />
+
+  <!-- Pieza a medida -->
+  <link rel="stylesheet" href="../custom/live-counter/live-counter.css?v=17" />
+
+  <style>
+    html, body { margin: 0; padding: 0; background: var(--color-ink); }
+    body { font-family: var(--font-body); color: var(--color-text); overflow-x: hidden; }
+    ::selection { background: var(--color-aqua); color: var(--color-black); }
+  </style>
+</head>
+<body>
+  <div data-block="00-nav"></div>
+  <div data-block="p01-hero"></div>
+  <div data-block="p02-opportunity"></div>
+  <div data-block="p03-value"></div>
+  <div data-block="p04-traction"></div>
+  <div data-block="p05-contact"></div>
+  <div data-block="footer"></div>
+
+  <script type="module">
+    const blocks = [
+      { slot: '00-nav',          path: '../native/home/00-nav.html' },
+      { slot: 'p01-hero',        path: '../native/partners/p01-hero.html' },
+      { slot: 'p02-opportunity', path: '../native/partners/p02-opportunity.html' },
+      { slot: 'p03-value',       path: '../native/partners/p03-value.html' },
+      { slot: 'p04-traction',    path: '../native/partners/p04-traction.html' },
+      { slot: 'p05-contact',     path: '../native/partners/p05-contact.html' },
+      { slot: 'footer',          path: '../native/home/09-cierre-footer.html' },
+    ];
+    const bust = `?t=${Date.now()}`;   // cache-buster solo-preview para los HTML de bloque
+    await Promise.all(blocks.map(async ({ slot, path }) => {
+      const html = await fetch(path + bust).then((r) => r.text());
+      document.querySelector(`[data-block="${slot}"]`).innerHTML = html;
+    }));
+    // i18n primero (aplica idioma guardado; toggle EN/ES en la nav compartida)
+    const { initI18n } = await import('../i18n/i18n.js?v=17');
+    initI18n();
+    const [{ initPartnerContact }, { initNewsletter }] = await Promise.all([
+      import('../native/partners/p05-contact.js?v=17'),
+      import('../native/home/09-cierre-footer.js?v=17'),
+    ]);
+    initPartnerContact();
+    initNewsletter();
+  </script>
+
+  <!-- Web component del contador -->
+  <script type="module" src="../custom/live-counter/live-counter.js?v=17"></script>
+</body>
+</html>

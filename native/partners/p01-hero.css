@@ -1,0 +1,84 @@
+/* Bloque P01 · Apertura — Partners (hero del estadio) */
+
+.phero {
+  position: relative;
+  min-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.phero__bg {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(122deg, #17160F 0, #17160F 15px, #141309 15px, #141309 30px);
+}
+.phero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 70% 20%, rgba(170,246,230,.10), transparent 60%),
+    linear-gradient(180deg, rgba(12,12,10,.55) 0%, rgba(12,12,10,.3) 34%, rgba(12,12,10,.9) 84%, #0C0C0A 100%);
+}
+.phero__asset-tag {
+  position: absolute;
+  top: 96px;
+  right: var(--gutter);
+  font: 500 10px/1 var(--font-mono);
+  letter-spacing: .18em;
+  color: rgba(239,235,225,.34);
+  border: 1px solid var(--color-line-strong);
+  padding: 7px 10px;
+  border-radius: 4px;
+}
+
+.phero__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;   /* fija el ancho para alinear al gutter (igual que el hero de Home) */
+  padding-bottom: clamp(40px, 6vw, 72px);
+}
+
+.phero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+  font: 500 var(--fs-kicker)/1 var(--font-label);
+  letter-spacing: var(--ls-kicker);
+  text-transform: uppercase;
+  color: var(--color-aqua);
+}
+.phero__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-aqua);
+  animation: psl-pulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.phero__headline {
+  margin: 0;
+  font: 800 var(--fs-hero)/0.92 var(--font-hero);   /* Ferryman */
+  letter-spacing: -.01em;
+  max-width: 14ch;
+}
+.phero__subhead {
+  margin: 30px 0 0;
+  max-width: 54ch;
+  font: 400 var(--fs-body-lg)/1.55 var(--font-body);
+  color: var(--color-text-muted);
+}
+.phero__ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+
+.phero__divider {
+  position: relative;
+  z-index: 2;
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--color-aqua) 0%, var(--color-red-marine) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phero__dot { animation: none; }
+}

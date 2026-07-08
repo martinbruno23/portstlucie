@@ -1,0 +1,169 @@
+/**
+ * PSL SC — Design tokens
+ * Estructura/estética: "Diseño ClaudeDesign/Home.dc.html" (validado por el cliente).
+ * Color + tipografía: manual de marca oficial (PSL-Brandbook.pdf). Ver tokens.md.
+ * NO hardcodear valores fuera de este archivo.
+ */
+
+:root {
+  /* ====== COLOR — brandbook oficial ======
+     Aquamarine = principal. Negro = secundario. Blanco + Red Marine = acento. */
+  --color-aqua:        #AAF6E6;   /* Aquamarine (Pantone 0921 C) — PRINCIPAL: CTAs, kickers, acentos sobre oscuro */
+  --color-aqua-deep:   #0E8C79;   /* aquamarine legible sobre superficies claras (links/kickers en white) */
+  --color-black:       #000000;
+  --color-white:       #FFFFFF;
+  --color-red-marine:  #FF0033;   /* Red Marine (Pantone 0821 C) — acento de urgencia/vida */
+
+  /* Superficies (negro cálido para suavizar el 100% black en pantalla) */
+  --color-ink:      #0C0C0A;   /* fondo base oscuro */
+  --color-ink-2:    #131118;   /* cards oscuras / texto sobre claro reemplazado por black */
+  --color-ink-3:    #16150F;   /* inputs, superficies elevadas sobre ink */
+  --color-paper:      #F4F1EA;   /* superficie clara principal (crema cálido) */
+  --color-paper-2:    #EDE8DE;   /* variación clara para alternar dos claras seguidas */
+  --color-paper-card: #FFFFFF;   /* tarjetas — blanco de marca como acento, resalta sobre la crema */
+  --color-paper-line: rgba(0,0,0,.09);
+
+  /* Texto */
+  --color-text:            #F4F1EA;   /* sobre oscuro (blanco cálido) */
+  --color-text-muted:      rgba(244,241,234,.68);
+  --color-text-faint:      rgba(244,241,234,.5);
+  --color-text-on-paper:       #0C0C0A;
+  --color-text-on-paper-muted: rgba(12,12,10,.62);
+  --color-text-on-paper-faint: rgba(12,12,10,.45);
+
+  /* Líneas sobre ink */
+  --color-line:        rgba(244,241,234,.1);
+  --color-line-strong: rgba(244,241,234,.16);
+
+  /* Aliases retrocompatibles */
+  --color-bg: var(--color-ink);
+  --color-bg-elevated: var(--color-ink-2);
+  --color-border: var(--color-line);
+  --color-whatsapp: #25d366;
+  --color-jersey-viewer-bg: #0C0C0A;
+  /* aliases del set anterior aún referenciados por componentes -> mapeados a marca */
+  --color-teal: var(--color-aqua);
+  --color-teal-bright: var(--color-aqua);
+  --color-teal-ink: var(--color-aqua-deep);
+  --color-sky: var(--color-aqua);
+
+  /* ====== TIPOGRAFÍA — fuentes de marca (ver fonts.css) ======
+     Ferryman: título home. Druk: títulos/números display. Druk Text Wide: kickers/labels.
+     FF Tisa: body (serif). Cabazon: detalle decorativo. */
+  --font-hero:    'Ferryman', Georgia, serif;
+  --font-display: 'Druk', 'Arial Narrow', sans-serif;
+  --font-label:   'Druk Text Wide', 'Arial Narrow', sans-serif;
+  --font-body:    'Proxima Nova', system-ui, sans-serif;   /* body/UI: legible, fuente de marca */
+  --font-detail:  'Cabazon', 'Druk', serif;
+  --font-mono:    var(--font-label);   /* alias: kickers/labels que antes usaban mono -> Druk Text Wide */
+
+  /* tracking de titulares Druk — 0.02em para que respire (Druk viene muy apretado) */
+  --ls-display: 0.02em;
+
+  /* Escala fluida */
+  --fs-hero:  clamp(52px, 8.6vw, 138px);
+  --fs-h2:    clamp(34px, 5.4vw, 72px);
+  --fs-h3:    clamp(20px, 2vw, 26px);
+  --fs-card-title: 21px;
+  --fs-body-lg: clamp(15px, 1.4vw, 19px);
+  --fs-body:  16px;
+  --fs-small: 13.5px;
+
+  /* kicker / label (Druk Text Wide) */
+  --fs-kicker: 11px;
+  --fs-label:  10.5px;
+  --ls-kicker: .14em;
+  --ls-label:  .12em;
+
+  /* números de contadores — tabular-nums (decisión #3 del ranking, Pieza C) */
+  --fs-counter: clamp(40px, 5vw, 72px);
+  --font-feature-counter: 'tabular-nums';
+
+  --lh-tight: .9;
+  --lh-normal: 1.6;
+
+  /* ====== LAYOUT ====== */
+  --container: 1320px;
+  --gutter: clamp(22px, 5vw, 56px);
+  --section-pad: clamp(84px, 11vw, 150px);   /* más aire vertical, alineado al diseño */
+
+  /* ====== ESPACIADO ====== */
+  --space-1: 0.25rem;  --space-2: 0.5rem;  --space-3: 1rem;
+  --space-4: 1.5rem;   --space-5: 2.5rem;  --space-6: 4rem;
+
+  /* ====== RADIO ====== */
+  --radius-sm: 5px;  --radius-md: 14px;  --radius-lg: 18px;  --radius-pill: 100px;
+
+  /* ====== MOTION ====== */
+  --ease-jersey-drag: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-jersey-drag-min: 400ms;
+  --duration-jersey-drag-max: 600ms;
+  --duration-wall-slide-in: 300ms;
+  --ease-wall-slide-in: ease-out;
+  --duration-wall-highlight: 2500ms;
+  --duration-counter-highlight: 1500ms;
+
+  /* ====== Z-INDEX ====== */
+  --z-sticky-cta: 40;  --z-nav: 50;  --z-modal: 200;
+}
+
+/* ====== KEYFRAMES compartidos ====== */
+@keyframes psl-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.82)} }
+@keyframes psl-marq  { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes psl-rise  { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes psl-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ====== PRIMITIVAS ====== */
+*, *::before, *::after { box-sizing: border-box; }
+
+.psl-container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.surface-ink   { background: var(--color-ink);   color: var(--color-text); }
+.surface-paper { background: var(--color-paper); color: var(--color-text-on-paper); }
+.surface-aqua  { background: var(--color-aqua);  color: var(--color-black); }
+
+/* Kicker: "01 — THE PROJECT" en Druk Text Wide */
+.psl-kicker {
+  font: 500 var(--fs-kicker)/1 var(--font-label);
+  letter-spacing: var(--ls-kicker);
+  color: var(--color-aqua);
+  text-transform: uppercase;
+}
+.surface-paper .psl-kicker { color: var(--color-aqua-deep); }
+
+/* Titular de sección — Druk Heavy (800), con tracking para legibilidad */
+.psl-h2 {
+  margin: 18px 0 0;
+  font: 800 var(--fs-h2)/0.98 var(--font-display);
+  letter-spacing: var(--ls-display);
+  text-transform: none;
+  text-wrap: balance;
+}
+
+/* Botones pill */
+.psl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font: 600 14px/1 var(--font-body);   /* Proxima Nova Semibold — legible */
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 15px 26px;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: transform 140ms ease, background 160ms ease, border-color 160ms ease;
+}
+.psl-btn:hover { transform: translateY(-1px); }
+.cta-primary { background: var(--color-aqua); color: var(--color-black); }
+.cta-primary:hover { background: var(--color-white); }
+.cta-secondary { background: transparent; color: currentColor; border: 1px solid rgba(244,241,234,.28); }
+.surface-paper .cta-secondary { border-color: rgba(0,0,0,.22); }
+
+/* Contadores — tabular-nums (decisión #3 del ranking) */
+.tnum { font-variant-numeric: var(--font-feature-counter); }

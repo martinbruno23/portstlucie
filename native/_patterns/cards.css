@@ -1,0 +1,89 @@
+/**
+ * Patrón de tarjeta compartido (.pcard) — reusable en cualquier página.
+ * Usado en: Home (03 project, 08 news), Sumate (S02 beneficios), Partners (P02/P03).
+ * Fuente: guía de estilo Grupo B — "imagen/render + título corto + 1 línea + link; las tarjetas
+ * pesan visualmente igual, ninguna compite con el hero".
+ *
+ * Grilla contenedora: cada bloque define su propia grilla (ej. .project__grid), el patrón solo
+ * define la tarjeta. Utilidad genérica opcional: .pcard-grid.
+ */
+
+.pcard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.pcard {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-paper-card);
+  border: 1px solid var(--color-paper-line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.pcard:hover { transform: translateY(-3px); box-shadow: 0 16px 30px rgba(18,17,13,.08); }
+
+/* variante oscura (para tarjetas de acento sobre grilla clara) */
+.pcard--dark {
+  background: var(--color-ink-2);
+  border-color: var(--color-ink-2);
+  color: var(--color-text);
+}
+
+.pcard__media {
+  aspect-ratio: 4/3;
+  position: relative;
+  background: repeating-linear-gradient(135deg, #E7E1D4, #E7E1D4 11px, #E1DACB 11px, #E1DACB 22px);
+}
+.pcard__media--dark {
+  background: repeating-linear-gradient(135deg, #1C1B15, #1C1B15 11px, #191811 11px, #191811 22px);
+}
+/* etiqueta de tipo de asset (RENDER / PHOTO / 2027) */
+.pcard__media::before {
+  content: attr(data-tag);
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font: 500 9px/1 var(--font-mono);
+  letter-spacing: .14em;
+  color: rgba(18,17,13,.4);
+  border: 1px solid rgba(18,17,13,.16);
+  padding: 5px 7px;
+  border-radius: 4px;
+}
+.pcard__media--dark::before {
+  color: var(--color-sky);
+  border-color: rgba(169,214,222,.3);
+}
+
+/* icono opcional (tarjetas sin media, ej. beneficios de Sumate) */
+.pcard__icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 4px;
+}
+
+.pcard__body {
+  padding: 22px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.pcard__kicker {
+  font: 500 10px/1 var(--font-mono);
+  letter-spacing: .16em;
+  color: var(--color-teal-ink);
+  text-transform: uppercase;
+}
+.pcard__kicker--teal { color: var(--color-teal); }
+.pcard__title { margin: 2px 0 0; font: 800 var(--fs-card-title)/1.08 var(--font-display); letter-spacing: var(--ls-display); }
+.pcard__desc { margin: 0; font: 400 14px/1.55 var(--font-body); color: var(--color-text-on-paper-muted); flex: 1; }
+.pcard--dark .pcard__desc { color: var(--color-text-muted); }
+.pcard__link { margin-top: 8px; font: 600 13px/1 var(--font-body); letter-spacing: .02em; color: var(--color-text-on-paper); text-decoration: none; }
+.pcard__link--teal { color: var(--color-teal); }
+
+@media (max-width: 960px) { .pcard-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .pcard-grid { grid-template-columns: 1fr; } }

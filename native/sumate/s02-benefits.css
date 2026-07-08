@@ -1,0 +1,22 @@
+/* Bloque S02 · Beneficios — Sumate. Usa .pcard (ver native/_patterns/cards.css) */
+
+.benefits .psl-container { padding-block: var(--section-pad); }
+
+.benefits__head { margin-bottom: clamp(36px, 5vw, 60px); }
+/* max-width calibrado contra el copy en ES (más largo que EN) para que sea siempre ≤2 líneas */
+.benefits__title { max-width: 26ch; font-size: clamp(32px, 4.6vw, 60px); }
+
+.benefits__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* variante beneficio: sin media, icono arriba, más aire */
+.pcard--benefit .pcard__body { padding: 28px 24px 26px; gap: 10px; }
+.pcard--benefit .pcard__icon { color: var(--color-aqua-deep); }
+/* link teal legible sobre tarjeta blanca (el aquamarine claro no contrasta sobre paper) */
+.pcard--benefit .pcard__link--teal { color: var(--color-aqua-deep); }
+
+@media (max-width: 960px) { .benefits__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .benefits__grid { grid-template-columns: 1fr; } }

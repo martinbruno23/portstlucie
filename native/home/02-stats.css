@@ -1,0 +1,9 @@
+/* Bloque 02 · Stats proof band */
+
+.stats {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.stats .psl-container {
+  padding-block: clamp(44px, 6vw, 72px);
+}

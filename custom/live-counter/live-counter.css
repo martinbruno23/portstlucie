@@ -1,0 +1,60 @@
+/* <psl-live-counter> — stats band + otras variantes. Ver decisiones en live-counter.js */
+
+psl-live-counter { display: block; }
+
+.live-counter__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(20px, 4vw, 48px);
+}
+
+.live-counter__metric {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* divisores verticales entre columnas (diseño aprobado) */
+.live-counter__metric + .live-counter__metric {
+  border-left: 1px solid var(--color-line-strong);
+  padding-left: clamp(20px, 4vw, 48px);
+}
+
+/* Número — Archivo 900, condensado, tabular-nums (decisión #3 del ranking, Pieza C)
+   Mismo tamaño para todos los valores, incluido el texto relativo (ej. "12 min ago") — la columna
+   que lo contiene se ensancha en JS (ver _render()) para que nunca parta en varias líneas. */
+.live-counter__value {
+  font: 800 var(--fs-counter)/0.95 var(--font-display);
+  letter-spacing: var(--ls-display);
+  color: var(--color-text);
+  transition: color 200ms ease;
+  white-space: nowrap;   /* nunca partir en varias líneas */
+}
+
+.live-counter__value--accent { color: var(--color-teal); }
+
+.live-counter__value--highlight { color: var(--color-teal-bright); }
+
+.live-counter__label {
+  font: 500 var(--fs-label)/1.4 var(--font-mono);
+  letter-spacing: var(--ls-label);
+  color: var(--color-text-faint);
+  text-transform: uppercase;
+}
+
+/* nota opcional (variantes fan/reservation/sponsor) */
+.live-counter__note,
+.live-counter__updated {
+  margin-top: var(--space-4);
+  font: 500 var(--fs-label)/1.5 var(--font-mono);
+  letter-spacing: .12em;
+  color: var(--color-text-faint);
+  text-transform: uppercase;
+}
+.live-counter__updated-tooltip { cursor: help; margin-left: 6px; }
+
+@media (max-width: 780px) {
+  .live-counter__metrics { grid-template-columns: repeat(2, 1fr); row-gap: var(--space-5); }
+  /* en 2 columnas, el divisor izquierdo solo aplica a la 2ª y 4ª */
+  .live-counter__metric:nth-child(odd) { border-left: none; padding-left: 0; }
+}

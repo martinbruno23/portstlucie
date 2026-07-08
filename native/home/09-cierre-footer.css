@@ -1,0 +1,89 @@
+/* Bloque 09 · Newsletter + Footer */
+
+/* --- Newsletter --- */
+.newsletter { position: relative; overflow: hidden; border-top: 1px solid var(--color-line); }
+/* ancla (without shape) como marca de agua sutil — detalle de marca */
+.newsletter__anchor {
+  position: absolute;
+  right: -40px;
+  bottom: -60px;
+  width: 300px;
+  height: auto;
+  opacity: .06;
+  pointer-events: none;
+}
+.newsletter__inner {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--section-pad) var(--gutter);
+  text-align: center;
+}
+.newsletter__title { font-size: clamp(34px, 5.4vw, 72px); }
+.newsletter__lead {
+  margin: 18px auto 0;
+  max-width: 48ch;
+  font: 400 15px/1.6 var(--font-body);
+  color: var(--color-text-muted);
+}
+.newsletter__form {
+  display: flex;
+  gap: 10px;
+  max-width: 480px;
+  margin: 32px auto 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.newsletter__input {
+  flex: 1;
+  min-width: 220px;
+  background: var(--color-ink-3);
+  border: 1px solid var(--color-line-strong);
+  color: var(--color-text);
+  font: 400 15px/1 var(--font-body);
+  padding: 15px 18px;
+  border-radius: var(--radius-pill);
+  outline: none;
+}
+.newsletter__input::placeholder { color: var(--color-text-faint); }
+.newsletter__input:focus { border-color: var(--color-aqua); }
+.newsletter__btn { padding: 15px 26px; font-size: 14px; }
+.newsletter__msg {
+  min-height: 14px;
+  margin-top: 16px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: .12em;
+  color: var(--color-teal);
+}
+
+/* --- Footer --- */
+.footer { border-top: 1px solid var(--color-line); }
+.footer .psl-container { padding-block: clamp(48px, 6vw, 72px); }
+.footer__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.footer__brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--color-text); }
+.footer__crest { height: 47px; width: auto; display: block; }
+
+.footer__cols { display: flex; gap: clamp(28px, 5vw, 64px); flex-wrap: wrap; }
+.footer__col { display: flex; flex-direction: column; gap: 12px; }
+.footer__col-title { font: 500 10px/1 var(--font-mono); letter-spacing: .16em; color: var(--color-text-faint); text-transform: uppercase; }
+.footer__col a { font: 400 14px/1 var(--font-body); color: var(--color-text-muted); text-decoration: none; }
+.footer__col a:hover { color: var(--color-text); }
+
+.footer__bottom {
+  margin-top: 44px;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-line);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font: 500 11px/1.5 var(--font-mono);
+  letter-spacing: .06em;
+  color: var(--color-text-faint);
+}

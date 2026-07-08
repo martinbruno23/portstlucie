@@ -1,0 +1,15 @@
+/* Bloque S04 · Muro de fundadores — Sumate */
+
+.wall .psl-container { padding-block: var(--section-pad); }
+
+.wall__head { max-width: 40rem; margin-bottom: clamp(32px, 4vw, 48px); }
+.wall__title { font-size: clamp(30px, 4.4vw, 58px); }
+.wall__lead {
+  margin: 18px 0 0;
+  max-width: 50ch;
+  font: 400 var(--fs-body-lg)/1.6 var(--font-body);
+  color: var(--color-text-on-paper-muted);
+}
+
+/* el muro (card blanca) más ancho en esta página que en Home */
+.wall psl-founder-wall { max-width: 46rem; margin: 0 auto; display: block; }

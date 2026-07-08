@@ -1,0 +1,79 @@
+/* Bloque S01 · Apertura — Sumate */
+
+.sumate-hero {
+  position: relative;
+  min-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+/* placeholder rayado — reemplazar por render/foto de hinchada/estadio */
+.sumate-hero__bg {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(128deg, #171610 0, #171610 13px, #14130E 13px, #14130E 26px);
+}
+.sumate-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(110% 90% at 28% 20%, rgba(170,246,230,.10), transparent 60%),
+    linear-gradient(180deg, rgba(12,12,10,.6) 0%, rgba(12,12,10,.35) 34%, rgba(12,12,10,.9) 84%, #0C0C0A 100%);
+}
+
+.sumate-hero__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;   /* fija el ancho para alinear al gutter (igual que el hero de Home) */
+  padding-bottom: clamp(40px, 6vw, 72px);
+}
+
+.sumate-hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+  font: 500 var(--fs-kicker)/1.4 var(--font-label);
+  letter-spacing: var(--ls-kicker);
+  text-transform: uppercase;
+  color: var(--color-aqua);
+}
+.sumate-hero__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-red-marine);
+  animation: psl-pulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.sumate-hero__headline {
+  margin: 0;
+  font: 800 var(--fs-hero)/0.92 var(--font-hero);   /* Ferryman */
+  letter-spacing: -.01em;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+.sumate-hero__accent { color: var(--color-aqua); }
+
+.sumate-hero__subhead {
+  margin: 30px 0 0;
+  max-width: 54ch;
+  font: 400 var(--fs-body-lg)/1.55 var(--font-body);
+  color: var(--color-text-muted);
+}
+
+.sumate-hero__ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+
+/* barra separadora — gradiente de marca, consistente con la Home */
+.sumate-hero__divider {
+  position: relative;
+  z-index: 2;
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--color-aqua) 0%, var(--color-red-marine) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sumate-hero__dot { animation: none; }
+}

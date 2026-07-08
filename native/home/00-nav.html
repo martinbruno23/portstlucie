@@ -1,0 +1,34 @@
+<!--
+  Nav — header compartido (Home, Sumate, Partners). 🟩 Nativo.
+  Diseño adoptado de Home.dc.html: sticky con blur, badge hexagonal PSL, wordmark + est. line, CTA pill.
+
+  Links entre páginas: como este bloque se inyecta tal cual en las 3 páginas, los hrefs usan
+  "archivo.html#ancla" (no solo "#ancla") para que funcionen sin importar en qué página estés.
+  Si ya estás en esa página, el navegador solo hace scroll (no recarga) porque el archivo es el mismo.
+  NOTA handoff WP: en WordPress esto pasa a ser rutas reales (home_url('/sumate'), etc.), no archivos.
+-->
+<header class="nav">
+  <div class="psl-container nav__inner">
+    <a href="home.html" class="nav__brand" aria-label="Port St. Lucie SC — home">
+      <img class="nav__crest" src="/src/assets/brand/crest-aqua.png" alt="" width="34" height="36" />
+      <span class="nav__wordmark">
+        <span class="nav__name">PORT ST. LUCIE SC</span>
+      </span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="home.html#project" data-es="Club">Club</a>
+      <a href="home.html#project" data-es="Equipos">Teams</a>
+      <a href="home.html#academy" data-es="Academia">Academy</a>
+      <a href="home.html#jersey" data-es="Tienda">Shop</a>
+      <a href="home.html#news" data-es="Novedades">News</a>
+      <a href="partners.html" data-es="Partners">Partners</a>
+    </nav>
+    <div class="nav__right">
+      <div class="nav__lang" role="group" aria-label="Language / Idioma">
+        <button type="button" class="nav__lang-btn" data-lang-btn="en">EN</button>
+        <button type="button" class="nav__lang-btn" data-lang-btn="es">ES</button>
+      </div>
+      <a href="sumate.html" class="psl-btn cta-primary nav__cta"><span data-es="Hazte Fundador">Become a Founder</span> <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,46 @@
+/* Bloque 06 · Founders */
+
+.founders .psl-container { padding-block: var(--section-pad); }
+.founders__head { margin-bottom: clamp(44px, 5vw, 64px); }
+.founders__title { font-size: clamp(32px, 5vw, 66px); }
+
+.founders__grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* "your number" card — gradiente cálido, mascota Luca asomándose */
+.fnum {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #15140E 0%, #241a12 100%);
+  color: var(--color-text);
+  border-radius: 16px;
+  padding: 30px 28px;
+  display: flex;
+  flex-direction: column;
+}
+.fnum__kicker { font: 500 10px/1 var(--font-mono); letter-spacing: .18em; color: var(--color-sky); text-transform: uppercase; }
+.fnum__number { font: 800 clamp(52px, 7vw, 84px)/0.95 var(--font-display); letter-spacing: var(--ls-display); color: var(--color-aqua); margin-top: auto; }
+.fnum__title { font: 800 20px/1.05 var(--font-display); letter-spacing: var(--ls-display); margin-top: 10px; }
+.fnum__desc { font: 400 13px/1.55 var(--font-body); color: var(--color-text-muted); margin-top: 8px; }
+.fnum__cta { margin-top: 20px; justify-content: center; padding: 14px 18px; font-size: 13.5px; }
+
+.fnum__mascot {
+  position: absolute;
+  right: -34px;
+  bottom: -14px;
+  width: 150px;
+  height: auto;
+  opacity: .9;
+  pointer-events: none;
+  transform: rotate(4deg);
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,.5));
+}
+
+@media (max-width: 860px) {
+  .founders__grid { grid-template-columns: 1fr; }
+  .fnum { min-height: 340px; }
+}
